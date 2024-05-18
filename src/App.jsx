@@ -1,35 +1,24 @@
 import React, { useState } from 'react';
-import Albums from './components/Albums';
-import Posts from './components/Posts';
-import Users from './components/Users';
+import { COMPONENTS } from './utils/constants';
 
 const App = () => {
   const [selectedPage, setSelectedPage] = useState('albums');
+  const SelectedComponent = COMPONENTS[selectedPage];
+
   return (
     <div className='main-content'>
-      <button
-        onClick={() => setSelectedPage('albums')}
-        className={selectedPage === 'albums' ? 'active' : ''}
-      >
-        Get Albums
-      </button>
-      <button
-        onClick={() => setSelectedPage('users')}
-        className={selectedPage === 'users' ? 'active' : ''}
-      >
-        Get Users
-      </button>
-      <button
-        onClick={() => setSelectedPage('posts')}
-        className={selectedPage === 'posts' ? 'active' : ''}
-      >
-        Get Posts
-      </button>
-      <>
-        {selectedPage === 'albums' && <Albums />}
-        {selectedPage === 'users' && <Users />}
-        {selectedPage === 'posts' && <Posts />}
-      </>
+      {Object.keys(COMPONENTS).map((page) => {
+        return (
+          <button
+            key={page}
+            onClick={() => setSelectedPage(page)}
+            className={selectedPage === page ? 'active' : ''}
+          >
+            Get {page.charAt(0).toUpperCase() + page.slice(1)}
+          </button>
+        );
+      })}
+      <SelectedComponent />
     </div>
   );
 };
